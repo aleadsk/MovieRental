@@ -9,5 +9,9 @@ namespace MovieRental.API.Models {
         public int FKMovieId { get; set; }
 
         public int FKClientId { get; set; }
+
+        public ClientModel Client { get; set; }
+
+        public MovieModel Movie { get; set; }
     }
 }
