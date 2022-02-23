@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieRental.API.Commom.Dtos;
 using MovieRental.API.Domain.Interfaces;
 using MovieRental.API.Domain.Interfaces.Services;
 using MovieRental.API.Models;
@@ -15,15 +16,15 @@ namespace MovieRental.API.Services {
             _repository = repository;
         }
         
-        public async Task<bool> Change(MovieModel obj) {
-            var _movieModel = await _repository.Get(obj.Id);
+        public async Task<bool> Change(MovieDto obj) {
+            var _movieDto = await _repository.Get(obj.Id);
             
-            _movieModel.Title = obj.Title;
-            _movieModel.ParentalRating = obj.ParentalRating;
-            _movieModel.LauchMovie = obj.LauchMovie;
+            _movieDto.Title = obj.Title;
+            _movieDto.ParentalRating = obj.ParentalRating;
+            _movieDto.LauchMovie = obj.LauchMovie;
 
             try {
-                _repository.Update(_movieModel);
+                _repository.Update(_movieDto);
 
                 return await _repository.SaveChangesAsync();
             } catch (System.Exception error) {
@@ -51,7 +52,7 @@ namespace MovieRental.API.Services {
             return await _repository.GetAll();
         }
 
-        public async Task<bool> Save(MovieModel obj) {
+        public async Task<bool> Save(MovieDto obj) {
             try {
                 MovieModel _movieModel = new MovieModel {
                     

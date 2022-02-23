@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieRental.API.Commom.Dtos;
 using MovieRental.API.Domain.Interfaces;
 using MovieRental.API.Domain.Interfaces.Services;
 using MovieRental.API.Models;
@@ -15,7 +16,7 @@ namespace MovieRental.API.Services {
             _repository = repository;
         }
         
-        public async Task<bool> Change(ClientModel obj) {
+        public async Task<bool> Change(ClientDto obj) {
             var _clientModel = await _repository.Get(obj.Id);
             
             _clientModel.Name = obj.Name;
@@ -32,10 +33,10 @@ namespace MovieRental.API.Services {
         }
 
         public async Task<bool> Delete(int id) {
-            var _clientModel = await _repository.Get(id);
+            var _clientDto = await _repository.Get(id);
             
             try {
-                _repository.Delete(_clientModel);
+                _repository.Delete(_clientDto);
 
                 return await _repository.SaveChangesAsync();
             } catch (System.Exception error) {
@@ -51,7 +52,7 @@ namespace MovieRental.API.Services {
             return await _repository.GetAll();
         }
 
-        public async Task<bool> Save(ClientModel obj) {
+        public async Task<bool> Save(ClientDto obj) {
             try {
                 ClientModel _clientModel = new ClientModel {
                     

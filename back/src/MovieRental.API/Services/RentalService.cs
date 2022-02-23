@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MovieRental.API.Commom;
 using MovieRental.API.Domain.Interfaces;
 using MovieRental.API.Domain.Interfaces.Services;
 using MovieRental.API.Models;
@@ -23,16 +24,16 @@ namespace MovieRental.API.Services {
             return await _repository.GetAll();
         }
 
-        public async Task<bool> Change(RentalModel obj) {
-            var _rentalModel = await _repository.Get(obj.Id);
+        public async Task<bool> Change(RentalDto obj) {
+            var _rentalDto = await _repository.Get(obj.Id);
             
-            _rentalModel.RentalDate = obj.RentalDate;
-            _rentalModel.ReturnDate = obj.ReturnDate;
-            _rentalModel.FKMovieId = obj.FKMovieId;
-            _rentalModel.FKClientId = obj.FKClientId;
+            _rentalDto.RentalDate = obj.RentalDate;
+            _rentalDto.ReturnDate = obj.ReturnDate;
+            _rentalDto.FKMovieId = obj.FKMovieId;
+            _rentalDto.FKClientId = obj.FKClientId;
 
             try {
-                _repository.Update(_rentalModel);
+                _repository.Update(_rentalDto);
 
                 return await _repository.SaveChangesAsync();
             } catch (System.Exception error) {
@@ -40,7 +41,7 @@ namespace MovieRental.API.Services {
             }
         }
 
-        public async Task<bool> Save(RentalModel obj) {
+        public async Task<bool> Save(RentalDto obj) {
             try {
                 RentalModel _rentalModel = new RentalModel {
                     
