@@ -22,7 +22,7 @@ namespace MovieRental.API.Repository.Map
             builder.Property(x => x.ReturnDate)
                 .HasColumnType("Datetime");
 
-            builder.ToTable("Rental");
+            builder.ToTable("RentalModels");
         }
     }
 }

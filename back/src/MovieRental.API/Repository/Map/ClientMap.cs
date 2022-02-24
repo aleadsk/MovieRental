@@ -16,7 +16,7 @@ namespace MovieRental.API.Repository.Map {
             builder.Property(x => x.BirthDate)
                 .HasColumnType("Datetime");
 
-            builder.ToTable("Client");
+            builder.ToTable("ClientModels");
         }
     }
 }

@@ -16,7 +16,7 @@ namespace MovieRental.API.Repository.Map {
             builder.Property(x => x.LauchMovie)
                 .HasColumnType("Datetime");
 
-            builder.ToTable("Movie");
+            builder.ToTable("MovieModels");
         }
     }
 }
