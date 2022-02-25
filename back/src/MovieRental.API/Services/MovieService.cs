@@ -68,5 +68,9 @@ namespace MovieRental.API.Services {
                 throw new Exception(error.Message);
             }
         }
+
+        public async Task<List<MovieModel>> GetNeverRentalMovie() {
+            return await _repository.GetNeverRentalMovies();
+        }
     }
 }

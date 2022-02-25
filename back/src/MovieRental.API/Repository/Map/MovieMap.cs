@@ -13,6 +13,9 @@ namespace MovieRental.API.Repository.Map {
             builder.Property(x => x.ParentalRating)
                 .HasColumnType("int");
 
+            builder.Property(x => x.Rental)
+                .HasColumnType("int");
+
             builder.Property(x => x.LauchMovie)
                 .HasColumnType("Datetime");
 

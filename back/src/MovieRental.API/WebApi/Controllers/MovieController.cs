@@ -92,20 +92,23 @@ namespace MovieRental.API.Controllers {
                 if (movieResult.Count is 0) {
                     return NotFound("Não foi encontrado nenhum filme");
                 }
-                
-                List<MovieDto> rmodel = new List<MovieDto>();
 
-                foreach (var item in rmodel)
-                {   
-                    rmodel.Add(new MovieDto {
-                        Id = item.Id,
-                        Title = item.Title,
-                        ParentalRating = item.ParentalRating,
-                        LauchMovie = item.LauchMovie,
-                    });
+                return Ok(movieResult);
+            } catch (System.Exception message) {
+                return BadRequest(message.Message);
+            }
+        }
+        
+        [HttpGet("moviesNeverRental")]
+        public async Task<IActionResult> GetAllMovieNeverRental() {
+            try {
+                var movieResult = await _movieService.GetNeverRentalMovie();
+ 
+                if (movieResult.Count is 0) {
+                    return NotFound("Não foi encontrado nenhum filme");
                 }
 
-                return Ok(rmodel);
+                return Ok(movieResult);
             } catch (System.Exception message) {
                 return BadRequest(message.Message);
             }

@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MovieRental.API.Commom;
 using MovieRental.API.Data;
 using MovieRental.API.Domain.Interfaces;
 using MovieRental.API.Models;
@@ -29,6 +32,13 @@ namespace MovieRental.API.Repository.Services {
 
         public async Task<List<RentalModel>> GetAll() {
             return await _context.RentalModels
+                .Include(x => x.Client)
+                .Include(x => x.Movie)
+                .ToListAsync();
+        }
+
+        public async Task<List<RentalModel>> GetLateReturnMovies() {
+            return await _context.RentalModels.Where(x => x.ReturnDate < DateTime.Now)
                 .Include(x => x.Client)
                 .Include(x => x.Movie)
                 .ToListAsync();

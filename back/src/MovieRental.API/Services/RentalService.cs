@@ -9,11 +9,13 @@ using MovieRental.API.Models;
 namespace MovieRental.API.Services {
     public class RentalService : IRentalService {
         readonly IRentalRepository _repository;
+        readonly IMovieRepository _movieRepository;
 
         public bool IsSuccess { get; set; }
 
-        public RentalService(IRentalRepository repository) {
+        public RentalService(IRentalRepository repository, IMovieRepository movieRepository) {
             _repository = repository;
+            _movieRepository = movieRepository;
         }
 
         public async Task<RentalModel> Get(int id) {
@@ -53,6 +55,12 @@ namespace MovieRental.API.Services {
 
                 _repository.Create(_rentalModel);
 
+                var movieResult = await _movieRepository.Get(obj.FKMovieId);
+
+                movieResult.Rental = 1;
+
+                _movieRepository.Update(movieResult);
+
                 return await _repository.SaveChangesAsync();
             } catch (System.Exception error) {
                 throw new Exception(error.Message);
@@ -65,10 +73,20 @@ namespace MovieRental.API.Services {
             try {
                 _repository.Delete(_rentalModel);
 
+                var movieResult = await _movieRepository.Get(_rentalModel.FKMovieId);
+
+                movieResult.Rental = 0;
+
+                _movieRepository.Update(movieResult);
+
                 return await _repository.SaveChangesAsync();
             } catch (System.Exception error) {
                 throw new Exception(error.Message);
             }
+        }
+
+        public async Task<List<RentalModel>> GetLateReturnMovie() {
+            return await _repository.GetLateReturnMovies();
         }
     }
 }

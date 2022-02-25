@@ -1,5 +1,4 @@
 using System;
-using MovieRental.API.Commom.Dtos;
 
 namespace MovieRental.API.Commom {
     public class RentalDto : BaseDto {
@@ -11,8 +10,8 @@ namespace MovieRental.API.Commom {
 
         public int FKClientId { get; set; }
 
-        public ClientDto Client { get; set; }
+        public string ClientName { get; set; }
 
-        public MovieDto Movie { get; set; }
+        public string MovieName { get; set; }
     }
 }

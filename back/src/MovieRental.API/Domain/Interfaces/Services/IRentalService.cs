@@ -8,5 +8,7 @@ namespace MovieRental.API.Domain.Interfaces.Services {
         Task<RentalModel> Get(int id);
 
         Task<List<RentalModel>> GetAll(); 
+
+        Task<List<RentalModel>> GetLateReturnMovie();
     }
 }

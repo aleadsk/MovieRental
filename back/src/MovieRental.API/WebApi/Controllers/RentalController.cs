@@ -11,9 +11,14 @@ namespace MovieRental.API.Controllers {
     [Route("api/[controller]")]
     public class RentalController : ControllerBase {
         private readonly IRentalService _rentalService;
+        private readonly IMovieService _movieService;
+        private readonly IClientService _clientService;
 
-        public RentalController(IRentalService rentalService) {
+        public RentalController(IRentalService rentalService, IMovieService movieService,
+        IClientService clientService) {
             _rentalService = rentalService;
+            _movieService = movieService;
+            _clientService = clientService;
         }
 
         [HttpPost("edit/{id}")]
@@ -93,21 +98,46 @@ namespace MovieRental.API.Controllers {
                 if (rentalResult.Count is 0) {
                     return NotFound("Não foi encontrado nenhuma Locação");
                 }
-                
-                List<RentalDto> rmodel = new List<RentalDto>();
 
-                foreach (var item in rmodel)
-                {   
-                    rmodel.Add(new RentalDto {
+                List<RentalDto> rdto = new List<RentalDto>();
+
+                foreach (var item in rentalResult) {
+                    rdto.Add(new RentalDto {
                         Id = item.Id,
                         RentalDate = item.RentalDate,
                         ReturnDate = item.ReturnDate,
-                        FKMovieId = item.FKMovieId,
-                        FKClientId = item.FKClientId, 
+                        MovieName = item.Movie.Title,
+                        ClientName = item.Client.Name
                     });
                 }
 
-                return Ok(rmodel);
+                return Ok(rdto);
+            } catch (System.Exception message) {
+                return BadRequest(message.Message);
+            }
+        }
+        
+        [HttpGet("listLateReturn")]
+        public async Task<IActionResult> GetLateReturnMovies() {
+            try {
+                var rentalResult = await _rentalService.GetLateReturnMovie();
+ 
+                if (rentalResult.Count is 0) {
+                    return NotFound("Não foi encontrado nenhuma Locação");
+                }
+
+                List<RentalDto> rdto = new List<RentalDto>();
+
+                foreach (var item in rentalResult) {
+                    rdto.Add(new RentalDto {
+                        Id = item.Id,
+                        ReturnDate = item.ReturnDate,
+                        MovieName = item.Movie.Title,
+                        ClientName = item.Client.Name
+                    });
+                }
+
+                return Ok(rdto);
             } catch (System.Exception message) {
                 return BadRequest(message.Message);
             }

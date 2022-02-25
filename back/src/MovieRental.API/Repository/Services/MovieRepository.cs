@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MovieRental.API.Data;
@@ -26,6 +27,10 @@ namespace MovieRental.API.Repository.Services {
 
         public async Task<List<MovieModel>> GetAll() {
             return await _context.MovieModels.ToListAsync();
+        }
+
+        public async Task<List<MovieModel>> GetNeverRentalMovies() {
+            return await _context.MovieModels.Where(x => x.Rental == 0).ToListAsync();
         }
 
         public async Task<bool> SaveChangesAsync() {

@@ -9,6 +9,8 @@ namespace MovieRental.API.Commom.Dtos {
 
         public DateTime LauchMovie { get; set; }
 
+        public int Rental { get; set; }
+
         public List<RentalDto> Rentals { get; set; } = new List<RentalDto>();
     }
 }

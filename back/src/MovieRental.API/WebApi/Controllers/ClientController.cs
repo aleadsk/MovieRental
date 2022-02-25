@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -92,20 +91,8 @@ namespace MovieRental.API.Controllers {
                 if (clientResult.Count is 0) {
                     return NotFound("Não foi encontrado nenhum cliente");
                 }
-                
-                List<ClientDto> rmodel = new List<ClientDto>();
 
-                foreach (var item in rmodel)
-                {   
-                    rmodel.Add(new ClientDto {
-                        Id = item.Id,
-                        Name = item.Name,
-                        BirthDate = item.BirthDate,
-                        Cpf = item.Cpf,
-                    });
-                }
-
-                return Ok(rmodel);
+                return Ok(clientResult);
             } catch (System.Exception message) {
                 return BadRequest(message.Message);
             }
